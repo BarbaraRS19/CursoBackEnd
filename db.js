@@ -16,4 +16,15 @@ const connectDB = async () => {
         console.error('Erro ao conectar!')
     });
 };
-module.exports = connectDB
+
+const setup = async (req, res) => {
+    try{
+    const data = await client.query('CREATE TABLE usuarios(nome VARCHAR(100), email VARCHAR(50), id SERIAL PRIMARY KEY, senha VARCHAR(20))')
+    res.status(200).json({msg: 'A tabela foi criada!'})
+    }catch (err) {
+        console.error(err)
+        res.status(500)
+    }
+}
+
+module.exports = {connectDB, setup, client}
